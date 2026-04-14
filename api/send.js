@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     `❓ *Интерес:* ${esc(interest || 'не указан')}`,
     '',
     `🕐 *Время:* ${esc(now)} (МСК)`,
-    `🌐 _Источник: protendery.ru_`,
+    `🌐 _Источник: protendery.online_`,
   ].join('\n');
 
   try {
