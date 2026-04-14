@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Про Тендеры — тендерное сопровождение под ключ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{--blue:#1B4FBB;--blue-d:#143DA0;--blue-lt:#EDF2FF;--accent:#E8530A;--green:#1A7A4A;--text:#0F1923;--muted:#5A6A80;--light:#F4F6FA;--border:#DDE3EE}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+.topbar{background:var(--blue);color:#fff;font-size:13px;padding:8px 5vw;display:flex;justify-content:space-between;align-items:center}
+.topbar a{color:#fff;opacity:.85}.topbar a:hover{opacity:1}
+.topbar-r{display:flex;gap:1.5rem}
+
+nav{background:#fff;border-bottom:1px solid var(--border);padding:0 5vw;display:flex;align-items:center;justify-content:space-between;height:68px;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.logo-text{font-size:20px;font-weight:700;color:var(--blue);letter-spacing:-.02em}.logo-text span{color:var(--accent)}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{font-size:14px;color:var(--muted);font-weight:500;transition:color .15s}.nav-links a:hover{color:var(--blue)}
+.btn-nav{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:10px 22px;border-radius:6px;display:flex;align-items:center;gap:7px;transition:background .15s;cursor:pointer;border:none;font-family:inherit}.btn-nav:hover{background:var(--blue-d)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0F2A6B 0%,#1B4FBB 60%,#2563EB 100%);color:#fff;padding:64px 5vw 56px;display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;margin-bottom:1.25rem;color:#c7d8ff}
+.hero h1{font-size:clamp(28px,3.5vw,44px);font-weight:700;line-height:1.18;margin-bottom:.75rem;letter-spacing:-.02em}
+.hero h1 span{color:#93C5FD}
+.hero-proof{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:7px 14px;border-radius:6px;font-size:13px;color:rgba(255,255,255,.85);margin-bottom:1.25rem;cursor:pointer;transition:background .2s;border-width:1px}
+.hero-proof:hover{background:rgba(255,255,255,.18)}
+.hero-lead{font-size:16px;color:rgba(255,255,255,.8);line-height:1.65;margin-bottom:1.75rem;max-width:520px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:2rem}
+.btn-accent{background:var(--accent);color:#fff;font-size:14px;font-weight:700;padding:14px 28px;border-radius:6px;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s;cursor:pointer;border:none;font-family:inherit}.btn-accent:hover{opacity:.9}
+.btn-white-ol{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4);font-size:14px;font-weight:500;padding:13px 24px;border-radius:6px;transition:border-color .15s;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center}.btn-white-ol:hover{border-color:rgba(255,255,255,.8)}
+.hero-trust{display:flex;gap:1.5rem;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.7)}
+.trust-dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;flex-shrink:0}
+
+.hero-card{background:#fff;color:var(--text);border-radius:12px;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.hero-card h3{font-size:17px;font-weight:700;margin-bottom:.3rem}
+.hero-card>p{font-size:13px;color:var(--muted);margin-bottom:1.25rem}
+.ff{margin-bottom:12px}
+.ff label{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-bottom:5px}
+.ff input,.ff select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:6px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:border-color .15s}
+.ff input:focus,.ff select:focus{border-color:var(--blue)}
+.form-submit{width:100%;padding:13px;background:var(--blue);color:#fff;font-size:14px;font-weight:700;border:none;border-radius:6px;cursor:pointer;font-family:inherit;transition:background .15s;margin-top:4px}.form-submit:hover{background:var(--blue-d)}
+.form-note{font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+
+.stats-strip{background:var(--blue-lt);border-bottom:1px solid #C7D7F4;padding:0 5vw;display:flex}
+.stat{flex:1;padding:1.5rem 1rem;border-right:1px solid #C7D7F4;text-align:center}.stat:last-child{border-right:none}
+.stat-num{font-size:26px;font-weight:700;color:var(--blue);line-height:1;margin-bottom:3px}
+.stat-label{font-size:12px;color:var(--muted)}
+
+.section{padding:64px 5vw}
+.section-alt{background:var(--light)}
+.section-head{text-align:center;margin-bottom:3rem}
+.stag{display:inline-block;background:var(--blue-lt);color:var(--blue);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:.75rem}
+.stitle{font-size:clamp(22px,3vw,32px);font-weight:700;line-height:1.2;letter-spacing:-.02em}.stitle span{color:var(--blue)}
+.ssub{font-size:15px;color:var(--muted);margin-top:.6rem}
+
+/* CREDENTIALS */
+.cred-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.cred-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cred-box{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem}
+.cred-box-num{font-size:30px;font-weight:700;color:var(--blue);line-height:1;margin-bottom:4px}
+.cred-box-label{font-size:12px;color:var(--muted);line-height:1.4}
+.cred-box.wide{grid-column:1/-1;background:var(--blue);color:#fff}
+.cred-box.wide .cred-box-num{color:#93C5FD;font-size:32px}
+.cred-box.wide .cred-box-label{color:rgba(255,255,255,.75);font-size:13px}
+.cred-right{display:flex;flex-direction:column;gap:14px}
+.badge-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border:1px solid var(--border);border-radius:8px}
+.badge-icon{width:36px;height:36px;border-radius:8px;background:var(--blue-lt);display:flex;align-items:center;justify-content:center;color:var(--blue);flex-shrink:0}
+.badge-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.badge-sub{font-size:12px;color:var(--muted)}
+.audience-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem}
+.audience-block h4{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
+.aud-list{display:flex;flex-direction:column;gap:8px}
+.aud-item{display:flex;align-items:center;gap:8px;font-size:13px}
+.aud-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0}
+
+/* ── DOCUMENT SLIDER ── */
+.docs-section{padding:64px 0;background:#fff;overflow:hidden}
+.docs-section-head{text-align:center;margin-bottom:2rem;padding:0 5vw}
+.docs-slider-wrap{position:relative;padding:0 5vw}
+.docs-track-outer{
+  overflow:hidden;
+  border-radius:4px;
+}
+.docs-track{
+  display:flex;
+  gap:16px;
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
+  cursor:grab;
+  user-select:none;
+}
+.docs-track.dragging{cursor:grabbing;transition:none}
+.doc-slide{
+  flex:0 0 calc((100% - 16px*3) / 4);
+  min-width:0;
+}
+.doc-thumb{
+  position:relative;cursor:pointer;border-radius:8px;overflow:hidden;
+  border:1px solid var(--border);background:var(--light);
+  aspect-ratio:3/4;
+  transition:transform .2s,box-shadow .2s;
+}
+.doc-thumb:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(27,79,187,.18)}
+.doc-thumb img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.doc-thumb-overlay{
+  position:absolute;inset:0;background:rgba(27,79,187,.0);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.doc-thumb:hover .doc-thumb-overlay{background:rgba(27,79,187,.35)}
+.doc-thumb-overlay svg{opacity:0;transition:opacity .2s;color:#fff}
+.doc-thumb:hover .doc-thumb-overlay svg{opacity:1}
+.doc-caption{font-size:11px;color:var(--muted);text-align:center;padding:8px 8px 10px;background:#fff;border-top:1px solid var(--border);line-height:1.4}
+
+/* Slider arrows */
+.slider-arrow{
+  position:absolute;top:50%;transform:translateY(-60%);
+  width:40px;height:40px;border-radius:50%;
+  background:#fff;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:10;transition:background .15s,box-shadow .15s;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  color:var(--blue);
+}
+.slider-arrow:hover{background:var(--blue-lt);box-shadow:0 4px 14px rgba(27,79,187,.2)}
+.slider-arrow.prev{left:calc(5vw - 20px)}
+.slider-arrow.next{right:calc(5vw - 20px)}
+.slider-arrow.disabled{opacity:.35;cursor:default;pointer-events:none}
+
+/* Slider dots */
+.slider-dots{display:flex;justify-content:center;gap:6px;margin-top:20px}
+.slider-dot{width:7px;height:7px;border-radius:50%;background:var(--border);cursor:pointer;transition:background .2s,transform .2s}
+.slider-dot.active{background:var(--blue);transform:scale(1.3)}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:3000;align-items:center;justify-content:center;padding:20px}
+.lightbox.open{display:flex}
+.lightbox-inner{position:relative;max-width:720px;width:100%;display:flex;flex-direction:column;align-items:center;gap:14px}
+.lightbox-img{max-height:82vh;max-width:100%;border-radius:8px;object-fit:contain;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.lightbox-close{position:absolute;top:-48px;right:0;color:#fff;font-size:30px;cursor:pointer;background:none;border:none;opacity:.7;transition:opacity .2s;font-family:inherit;line-height:1}.lightbox-close:hover{opacity:1}
+.lightbox-caption{color:rgba(255,255,255,.75);font-size:13px;text-align:center;max-width:500px}
+.lightbox-nav{display:flex;align-items:center;gap:14px}
+.lb-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;transition:background .2s}.lb-btn:hover{background:rgba(255,255,255,.28)}
+.lightbox-counter{font-size:12px;color:rgba(255,255,255,.45);min-width:48px;text-align:center}
+
+/* SERVICES */
+.svc-cat-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.svc-card{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:1.25rem;transition:border-color .2s,box-shadow .2s}
+.svc-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(27,79,187,.1)}
+.svc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.9rem}
+.svc-ico{width:38px;height:38px;border-radius:8px;background:var(--blue-lt);display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.svc-n{font-size:11px;font-weight:700;color:#C7D7F4}
+.svc-title{font-size:14px;font-weight:600;margin-bottom:.35rem;line-height:1.35}.svc-title strong{color:var(--blue)}
+.svc-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.svc-sub{font-size:11px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}.svc-sub span{display:block;margin-bottom:2px}
+
+/* PACKAGES */
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pkg{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:1.75rem;display:flex;flex-direction:column}
+.pkg.feat{border-color:var(--blue);box-shadow:0 8px 40px rgba(27,79,187,.15);position:relative}
+.pkg-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 14px;border-radius:20px;white-space:nowrap}
+.pkg-name{font-size:14px;font-weight:700;margin-bottom:.75rem;line-height:1.3}
+.pkg-desc{font-size:13px;color:var(--muted);margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.pkg-feats{flex:1;display:flex;flex-direction:column;gap:7px;margin-bottom:1.5rem}
+.pf{display:flex;align-items:flex-start;gap:8px;font-size:12px}
+.chk{display:inline-block;width:16px;height:16px;flex-shrink:0}
+.pkg-btn{display:block;text-align:center;padding:11px;border-radius:6px;font-size:13px;font-weight:600;border:1.5px solid var(--blue);color:var(--blue);transition:background .15s,color .15s;cursor:pointer;background:transparent;width:100%;font-family:inherit}
+.pkg.feat .pkg-btn{background:var(--blue);color:#fff}.pkg-btn:hover{background:var(--blue);color:#fff}
+
+/* PROCESS */
+.proc-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.proc-steps::before{content:'';position:absolute;top:26px;left:5%;right:5%;height:2px;background:var(--border);z-index:0}
+.proc-step{text-align:center;padding:0 1rem;position:relative;z-index:1}
+.proc-dot{width:52px;height:52px;border-radius:50%;background:var(--blue);color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;border:3px solid #fff;box-shadow:0 0 0 2px var(--blue)}
+.proc-title{font-size:13px;font-weight:600;margin-bottom:.35rem}
+.proc-desc{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* WHY */
+.adv-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.adv-list{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.adv-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.adv-icon{font-size:22px;margin-bottom:.6rem}
+.adv-title{font-size:14px;font-weight:600;margin-bottom:.3rem}.adv-title span{color:var(--blue)}
+.adv-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.adv-right{display:flex;flex-direction:column;gap:14px}
+.hl-box{background:var(--blue);color:#fff;border-radius:12px;padding:1.75rem}
+.hl-num{font-size:40px;font-weight:700;line-height:1;margin-bottom:.25rem}
+.hl-label{font-size:13px;opacity:.8}
+.fas-card{background:#FFF3EE;border:1.5px solid #FBBF9A;border-radius:10px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start}
+.fas-ico{flex-shrink:0;width:40px;height:40px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.fas-card h4{font-size:14px;font-weight:600;margin-bottom:.3rem}.fas-card h4 span{color:var(--accent)}
+.fas-card p{font-size:12px;color:var(--muted);line-height:1.55}
+.audit-mini{background:var(--blue);color:#fff;border-radius:10px;padding:1.5rem 1.75rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem}
+.audit-mini h3{font-size:15px;font-weight:700;margin-bottom:.25rem}.audit-mini h3 span{color:#93C5FD}
+.audit-mini p{font-size:12px;opacity:.8}
+.btn-wh{background:#fff;color:var(--blue);font-size:13px;font-weight:700;padding:11px 22px;border-radius:6px;white-space:nowrap;transition:opacity .15s;cursor:pointer;border:none;font-family:inherit}.btn-wh:hover{opacity:.9}
+
+/* FAQ */
+.faq-list{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.faq-item{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.faq-q{padding:1rem 1.25rem;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#fff;user-select:none}.faq-q:hover{background:var(--light)}
+.faq-a{padding:0 1.25rem 1rem;font-size:13px;color:var(--muted);line-height:1.65;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-q{background:var(--blue-lt);color:var(--blue)}
+.faq-arrow{transition:transform .2s;font-size:16px}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+
+/* CTA / FOOTER */
+.cta-final{background:linear-gradient(135deg,#0F2A6B 0%,#1B4FBB 100%);color:#fff;text-align:center;padding:72px 5vw}
+.cta-final h2{font-size:clamp(24px,3.5vw,40px);font-weight:700;margin-bottom:.75rem;letter-spacing:-.02em}
+.cta-final h2 span{color:#93C5FD}
+.cta-final p{font-size:16px;opacity:.8;margin-bottom:2rem}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+footer{background:#0F1923;color:#8898AA;padding:2.5rem 5vw;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.f-logo{font-size:18px;font-weight:700;color:#fff}.f-logo span{color:var(--accent)}
+.f-links{display:flex;gap:1.5rem}
+.f-links a{font-size:13px;color:#8898AA;transition:color .15s}.f-links a:hover{color:#fff}
+
+/* POPUP */
+.popup-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0);z-index:2000;align-items:center;justify-content:center;padding:20px;transition:background .25s}
+.popup-overlay.open{display:flex;background:rgba(0,0,0,.55)}
+.popup-modal{background:#fff;border-radius:12px;max-width:460px;width:100%;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;opacity:0;transform:translateY(24px) scale(.97);transition:opacity .28s cubic-bezier(.4,0,.2,1),transform .28s cubic-bezier(.4,0,.2,1)}
+.popup-overlay.open .popup-modal{opacity:1;transform:translateY(0) scale(1)}
+.popup-close{position:absolute;top:1rem;right:1.25rem;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;background:none;border:none;font-family:inherit}.popup-close:hover{color:var(--text)}
+.popup-modal h3{font-size:20px;font-weight:700;margin-bottom:.3rem}
+.popup-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem}
+.popup-success{display:none;text-align:center;padding:1.5rem 0}
+.popup-success .ok-icon{font-size:48px;margin-bottom:.75rem}
+.popup-success h4{font-size:18px;font-weight:700;margin-bottom:.5rem}
+.popup-success p{font-size:13px;color:var(--muted)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;max-width:660px;width:100%;max-height:90vh;overflow-y:auto;padding:2rem}
+.modal-close{float:right;font-size:22px;cursor:pointer;color:var(--muted);line-height:1;margin-left:1rem}.modal-close:hover{color:var(--text)}
+.modal h3{font-size:20px;font-weight:700;margin-bottom:.4rem}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem}
+.exp-item{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--border)}
+.exp-item:last-child{border-bottom:none}
+.exp-year{font-size:11px;font-weight:600;color:var(--blue);letter-spacing:.06em;min-width:76px;padding-top:2px}
+.exp-text{font-size:13px;line-height:1.6}.exp-text strong{color:var(--blue)}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}.hero-card{max-width:480px}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .pkg-grid{grid-template-columns:1fr}
+  .proc-steps{grid-template-columns:1fr 1fr}.proc-steps::before{display:none}
+  .adv-grid,.cred-grid{grid-template-columns:1fr}
+  .stats-strip{flex-wrap:wrap}
+  .stat{flex:0 0 50%;border-right:none;border-bottom:1px solid #C7D7F4}
+  .audit-mini{flex-direction:column}
+  .doc-slide{flex:0 0 calc((100% - 16px*2) / 3)}
+  .slider-arrow.prev{left:4px}
+  .slider-arrow.next{right:4px}
+}
+@media(max-width:600px){
+  .topbar{display:none}.nav-links{display:none}
+  .svc-grid,.adv-list,.cred-stats{grid-template-columns:1fr}
+  .doc-slide{flex:0 0 calc((100% - 16px) / 2)}
+}
+@media(max-width:400px){
+  .doc-slide{flex:0 0 85%}
+}
+</style>
+</head>
+<body>
+
+<script>
+/* ── TELEGRAM via /api/send (Vercel serverless) ── */
+async function sendToTelegram(fields) {
+  try {
+    const res = await fetch('/api/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fields)
+    });
+    const data = await res.json();
+    if (!data.ok) console.error('Send error:', data);
+    return data.ok;
+  } catch (e) {
+    console.error('Network error:', e);
+    return false;
+  }
+}
+
+/* ── POPUP ── */
+function openPopup(interest) {
+  const sel = document.getElementById('popup-interest');
+  if (interest && sel) {
+    for (let o of sel.options) {
+      if (o.value === interest || o.text.toLowerCase().includes(interest.toLowerCase())) {
+        sel.value = o.value; break;
+      }
+    }
+  }
+  document.getElementById('popup-form-wrap').style.display = '';
+  document.getElementById('popup-success').style.display = 'none';
+  const ov = document.getElementById('contact-popup');
+  ov.style.display = 'flex';
+  requestAnimationFrame(() => requestAnimationFrame(() => ov.classList.add('open')));
+}
+function closePopup() {
+  const ov = document.getElementById('contact-popup');
+  ov.classList.remove('open');
+  setTimeout(() => ov.style.display = 'none', 280);
+}
+async function submitPopup() {
+  const name     = document.getElementById('popup-name').value.trim();
+  const contact  = document.getElementById('popup-contact').value.trim();
+  const interest = document.getElementById('popup-interest').value;
+  const btn      = document.getElementById('popup-submit-btn');
+  if (!name || !contact) { alert('Пожалуйста, заполните имя и контакт'); return; }
+  btn.textContent = 'Отправляю…'; btn.disabled = true;
+  const ok = await sendToTelegram({ name, contact, interest });
+  if (ok) {
+    document.getElementById('popup-form-wrap').style.display = 'none';
+    document.getElementById('popup-success').style.display   = 'block';
+  } else {
+    btn.textContent = 'Ошибка — попробуйте ещё раз';
+    btn.style.background = '#c0392b';
+  }
+  btn.disabled = false;
+}
+async function submitHeroForm(btn) {
+  const name     = document.getElementById('hero-name').value.trim();
+  const contact  = document.getElementById('hero-contact').value.trim();
+  const interest = document.getElementById('hero-interest').value;
+  if (!name || !contact) { alert('Пожалуйста, заполните имя и контакт'); return; }
+  btn.textContent = 'Отправляю…'; btn.disabled = true;
+  const ok = await sendToTelegram({ name, contact, interest });
+  if (ok) {
+    btn.textContent = 'Заявка отправлена ✓';
+    btn.style.background = '#1A7A4A';
+  } else {
+    btn.textContent = 'Ошибка — попробуйте ещё раз';
+    btn.style.background = '#c0392b';
+    btn.disabled = false;
+  }
+}
+
+/* ── DOCUMENT SLIDER ── */
+const docPhotos = [
+  { src: 'docs/cert1.jpg', caption: 'Сертификат аудитора — ЦСК (OHSAS 18001:2007)' },
+  { src: 'docs/cert2.jpg', caption: 'Сертификат Сбербанк-АСТ — подготовка поставщика · 44-ФЗ' },
+  { src: 'docs/cert3.jpg', caption: 'Удостоверение о повышении квалификации — МГТУ им. Баумана' },
+  { src: 'docs/doc4.jpg',  caption: 'Документ 4' },
+  { src: 'docs/doc5.jpg',  caption: 'Документ 5' },
+  { src: 'docs/doc6.jpg',  caption: 'Документ 6' },
+  { src: 'docs/doc7.jpg',  caption: 'Документ 7' },
+  { src: 'docs/doc8.jpg',  caption: 'Документ 8' },
+  { src: 'docs/doc9.jpg',  caption: 'Документ 9' },
+  { src: 'docs/doc10.jpg', caption: 'Документ 10' },
+  { src: 'docs/doc11.jpg', caption: 'Документ 11' },
+  { src: 'docs/doc12.jpg', caption: 'Документ 12' },
+  { src: 'docs/doc13.jpg', caption: 'Документ 13' },
+];
+
+let sliderIdx = 0;
+let lbIdx = 0;
+
+function getVisible() {
+  const w = window.innerWidth;
+  if (w <= 400) return 1;
+  if (w <= 600) return 2;
+  if (w <= 900) return 3;
+  return 4;
+}
+function getMaxIdx() { return Math.max(0, docPhotos.length - getVisible()); }
+
+function sliderGo(idx) {
+  sliderIdx = Math.max(0, Math.min(idx, getMaxIdx()));
+  const track = document.getElementById('docs-track');
+  const gap = 16;
+  const slideW = track.parentElement.offsetWidth;
+  const vis = getVisible();
+  const w = (slideW - gap * (vis - 1)) / vis;
+  track.style.transform = `translateX(${-sliderIdx * (w + gap)}px)`;
+  document.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === sliderIdx));
+  document.querySelector('.slider-arrow.prev').classList.toggle('disabled', sliderIdx === 0);
+  document.querySelector('.slider-arrow.next').classList.toggle('disabled', sliderIdx >= getMaxIdx());
+}
+
+function buildSlider() {
+  const track = document.getElementById('docs-track');
+  const dotsEl = document.getElementById('slider-dots');
+  track.innerHTML = '';
+  dotsEl.innerHTML = '';
+  docPhotos.forEach((p, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'doc-slide';
+    slide.innerHTML = `
+      <div class="doc-thumb" onclick="openLightbox(${i})">
+        <img src="${p.src}" alt="${p.caption}" loading="lazy">
+        <div class="doc-thumb-overlay">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M14 10l6.1-6.1M9 21H3v-6M10 14l-6.1 6.1"/></svg>
+        </div>
+        <div class="doc-caption">${p.caption}</div>
+      </div>`;
+    track.appendChild(slide);
+    const dot = document.createElement('div');
+    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => sliderGo(i);
+    dotsEl.appendChild(dot);
+  });
+
+  // Touch / mouse drag
+  let startX = 0, startIdx = 0, isDragging = false, moved = false;
+  track.addEventListener('mousedown', e => {
+    isDragging = true; moved = false; startX = e.clientX; startIdx = sliderIdx;
+    track.classList.add('dragging');
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const diff = e.clientX - startX;
+    if (Math.abs(diff) > 5) moved = true;
+  });
+  window.addEventListener('mouseup', e => {
+    if (!isDragging) return;
+    isDragging = false;
+    track.classList.remove('dragging');
+    if (moved) {
+      const diff = startX - e.clientX;
+      if (Math.abs(diff) > 50) sliderGo(startIdx + (diff > 0 ? 1 : -1));
+    }
+  });
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startIdx = sliderIdx; moved = false; }, {passive:true});
+  track.addEventListener('touchmove', e => {
+    const diff = Math.abs(e.touches[0].clientX - startX);
+    if (diff > 5) moved = true;
+  }, {passive:true});
+  track.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (moved && Math.abs(diff) > 40) sliderGo(startIdx + (diff > 0 ? 1 : -1));
+  });
+
+  sliderGo(0);
+  window.addEventListener('resize', () => sliderGo(Math.min(sliderIdx, getMaxIdx())));
+}
+
+/* ── LIGHTBOX ── */
+function openLightbox(idx) {
+  lbIdx = idx;
+  updateLb();
+  const lb = document.getElementById('lightbox');
+  lb.style.display = 'flex';
+  requestAnimationFrame(() => lb.classList.add('open'));
+}
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  lb.classList.remove('open');
+  setTimeout(() => lb.style.display = 'none', 200);
+}
+function lbNav(dir) { lbIdx = (lbIdx + dir + docPhotos.length) % docPhotos.length; updateLb(); }
+function updateLb() {
+  const p = docPhotos[lbIdx];
+  document.getElementById('lb-img').src = p.src;
+  document.getElementById('lb-caption').textContent = p.caption;
+  document.getElementById('lb-counter').textContent = `${lbIdx + 1} / ${docPhotos.length}`;
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    if (e.key === 'Escape')     closeLightbox();
+  }
+});
+
+document.addEventListener('DOMContentLoaded', buildSlider);
+</script>
+
+<div class="topbar">
+  <span>Работаем по договору · Участники РАУТ · Партнёры Контур · с 2009 года</span>
+  <div class="topbar-r">
+    <a href="tel:+7XXXXXXXXXX">+7 (XXX) XXX-XX-XX</a>
+    <a href="https://t.me/ВАША_ССЫЛКА" target="_blank">Telegram</a>
+  </div>
+</div>
+
+<nav>
+  <!-- Для логотипа замените строку ниже на: <img src="logo.svg" alt="ПроТендеры" style="height:44px;width:auto"> -->
+  <div class="logo-text">Про<span>Тендеры</span></div>
+  <div class="nav-links">
+    <a href="#about">О нас</a>
+    <a href="#services">Услуги</a>
+    <a href="#packages">Пакеты</a>
+    <a href="#process">Как работаем</a>
+    <a href="#faq">Вопросы</a>
+  </div>
+  <button class="btn-nav" onclick="openPopup()">Связаться с нами</button>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-badge">
+      <svg width="12" height="12" viewBox="0 0 20 20" fill="#4ADE80"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+      Тендерное сопровождение по 44-ФЗ и 223-ФЗ · опыт с 2009 года
+    </div>
+    <h1>Выигрываем закупки.<br>Вы <span>занимаетесь бизнесом</span>,<br>мы — тендерами.</h1>
+    <div class="hero-proof" onclick="document.getElementById('docs').scrollIntoView({behavior:'smooth'})">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      Подтверждённый опыт — всё на бумаге и в цифрах, не просто слова →
+    </div>
+    <p class="hero-lead">7 000+ закупок, 700+ госконтрактов, 270 млн ₽ — реальные цифры за 2017–2025. Анализируем рынок, готовим документы, ведём торги и защищаем в ФАС.</p>
+    <div class="hero-actions">
+      <button class="btn-accent" onclick="openPopup()">Написать нам</button>
+      <a class="btn-white-ol" href="#packages">Смотреть пакеты</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><div class="trust-dot"></div>Ответим за 30 минут</div>
+      <div class="trust-item"><div class="trust-dot"></div>Работаем по договору</div>
+      <div class="trust-item"><div class="trust-dot"></div>Участники РАУТ</div>
+      <div class="trust-item"><div class="trust-dot"></div>Партнёры Контур</div>
+    </div>
+  </div>
+  <div class="hero-card">
+    <h3>Бесплатная консультация</h3>
+    <p>Разберём вашу ситуацию за 30 минут</p>
+    <div class="ff"><label>Имя</label><input id="hero-name" type="text" placeholder="Иван Иванов"></div>
+    <div class="ff"><label>Телефон, Telegram или MAX</label><input id="hero-contact" type="text" placeholder="+7 (___) ___-__-__ / @username"></div>
+    <div class="ff"><label>Что вас интересует?</label>
+      <select id="hero-interest">
+        <option>Сопровождение под ключ</option>
+        <option>Анализ рынка (консалтинг)</option>
+        <option>Аудит тендерного отдела</option>
+        <option>Помощь с ФАС / РНП</option>
+        <option>Обучение тендерологов</option>
+        <option>Регистрация в ЕИС</option>
+        <option>Подбор закупок</option>
+      </select>
+    </div>
+    <button class="form-submit" onclick="submitHeroForm(this)">Получить консультацию бесплатно</button>
+    <p class="form-note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <div class="stat"><div class="stat-num">с 2009</div><div class="stat-label">опыт в торгах</div></div>
+  <div class="stat"><div class="stat-num">7 000+</div><div class="stat-label">закупок 2017–2025</div></div>
+  <div class="stat"><div class="stat-num">700+</div><div class="stat-label">госконтрактов</div></div>
+  <div class="stat"><div class="stat-num">270 млн ₽</div><div class="stat-label">сумма контрактов</div></div>
+  <div class="stat"><div class="stat-num">50+</div><div class="stat-label">заседаний ФАС</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-head">
+    <div class="stag">О компании</div>
+    <h2 class="stitle">Подтверждённый опыт <span>в государственных закупках</span></h2>
+    <p class="ssub">Не просто консультанты — действующие участники рынка с документально подтверждённой историей</p>
+  </div>
+  <div class="cred-grid">
+    <div>
+      <div class="cred-stats">
+        <div class="cred-box"><div class="cred-box-num">7</div><div class="cred-box-label">компаний взято на сопровождение</div></div>
+        <div class="cred-box"><div class="cred-box-num">50+</div><div class="cred-box-label">заседаний ФАС за практику</div></div>
+        <div class="cred-box"><div class="cred-box-num">700+</div><div class="cred-box-label">госконтрактов 2017–2025</div></div>
+        <div class="cred-box"><div class="cred-box-num">16 лет</div><div class="cred-box-label">в сфере торгов, с 2009 года</div></div>
+        <div class="cred-box wide"><div><div class="cred-box-num">270 000 000 ₽</div><div class="cred-box-label">общая сумма заключённых госконтрактов за 2017–2025 год</div></div></div>
+      </div>
+      <div style="margin-top:14px">
+        <button onclick="document.getElementById('exp-modal').classList.add('open')"
+          style="width:100%;padding:12px;border:1.5px solid var(--blue);background:var(--blue-lt);color:var(--blue);font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;font-family:inherit">
+          Посмотреть подробный опыт →
+        </button>
+      </div>
+    </div>
+    <div class="cred-right">
+      <div class="badge-row"><div class="badge-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><div class="badge-title">Участники РАУТ</div><div class="badge-sub">Российская ассоциация участников торгов</div></div></div>
+      <div class="badge-row"><div class="badge-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div><div><div class="badge-title">Партнёры Контур</div><div class="badge-sub">Официальное партнёрство с СКБ Контур</div></div></div>
+      <div class="badge-row"><div class="badge-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div><div class="badge-title">Сертифицированные аудиторы</div><div class="badge-sub">ЦСК · Сбербанк-АСТ · МГТУ им. Баумана</div></div></div>
+      <div class="badge-row"><div class="badge-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div><div class="badge-title">Тендерный отдел с нуля</div><div class="badge-sub">Создание и развитие отделов под ключ</div></div></div>
+      <div class="audience-block">
+        <h4>Наша аудитория</h4>
+        <div class="aud-list">
+          <div class="aud-item"><div class="aud-dot"></div>Микро, малый и средний бизнес</div>
+          <div class="aud-item"><div class="aud-dot"></div>Новички и действующие участники госрынка</div>
+          <div class="aud-item"><div class="aud-dot"></div>Те, кто хочет получить профессию тендеролога</div>
+          <div class="aud-item"><div class="aud-dot"></div>Компании, выстраивающие тендерный отдел</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTS SLIDER -->
+<section class="docs-section" id="docs">
+  <div class="docs-section-head">
+    <div class="stag">Документы и сертификаты</div>
+    <h2 class="stitle">Всё подтверждено <span>на бумаге</span></h2>
+    <p class="ssub" style="margin-top:.5rem">Нажмите на документ для просмотра · Листайте стрелками или свайпом</p>
+  </div>
+  <div class="docs-slider-wrap">
+    <button class="slider-arrow prev disabled" onclick="sliderGo(sliderIdx - 1)" aria-label="Назад">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="slider-arrow next" onclick="sliderGo(sliderIdx + 1)" aria-label="Вперёд">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <div class="docs-track-outer">
+      <div class="docs-track" id="docs-track"></div>
+    </div>
+  </div>
+  <div class="slider-dots" id="slider-dots"></div>
+</section>
+
+<!-- SERVICES -->
+<section class="section section-alt" id="services">
+  <div class="section-head">
+    <div class="stag">Услуги</div>
+    <h2 class="stitle">Три направления работы — <span>выберите своё</span></h2>
+    <p class="ssub">Подключаемся на любом этапе или ведём весь процесс</p>
+  </div>
+  <div class="svc-cat-label">Консалтинг</div>
+  <div class="svc-grid">
+    <div class="svc-card"><div class="svc-top"><div class="svc-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div><span class="svc-n">01</span></div><div class="svc-title"><strong>Тендерный аудит</strong></div><div class="svc-desc">Аудит тендерных отделов, госрынка и действующих участников</div><div class="svc-sub"><span>— Анализ текущих процессов и узких мест</span><span>— Аудит на соответствие 44/223-ФЗ и ТЗ</span><span>— Конкретные рекомендации по улучшению</span></div></div>
+    <div class="svc-card"><div class="svc-top"><div class="svc-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><span class="svc-n">02</span></div><div class="svc-title"><strong>Стратегическое планирование</strong></div><div class="svc-desc">Стратегия выхода на госрынок и прогнозирование результатов</div><div class="svc-sub"><span>— Кол-во торгов, сезонность, средняя цена победы</span><span>— До 3–5 основных конкурентов</span></div></div>
+  </div>
+  <div class="svc-cat-label">Консультативные услуги</div>
+  <div class="svc-grid">
+    <div class="svc-card"><div class="svc-top"><div class="svc-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg></div><span class="svc-n">03</span></div><div class="svc-title"><strong>Ориентирование в 223/44-ФЗ</strong></div><div class="svc-desc">Разбираем нормативную базу применительно к вашей ситуации</div></div>
+    <div class="svc-card"><div class="svc-top"><div class="svc-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><span class="svc-n">04</span></div><div class="svc-title"><strong>Технический вход в госрынок</strong></div><div class="svc-desc">Подготовка рабочего места, регистрация в ЕИС, ведение тендерной отчётности</div></div>
+    <div class="svc-card"><div class="svc-top"><div class="svc-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div><span class="svc-n">05</span></div><div class="svc-title"><strong>Обучение тендерологов</strong></div><div class="svc-desc">Подготовка кадров для работы в сфере государственных закупок с нуля</div></div>
+  </div>
+  <div class="svc-cat-label">Сопровождение</div>
+  <div class="svc-grid">
+    <div class="svc-card"><div class="svc-top"><div class="svc-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="svc-n">06</span></div><div class="svc-title"><strong>«Подключ»</strong> — от аудита до ежемесячного ведения</div><div class="svc-desc">Полный цикл: аудит → стратегия → подбор закупок → участие → ежемесячное ведение</div></div>
+    <div class="svc-card"><div class="svc-top"><div class="svc-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div><span class="svc-n">07</span></div><div class="svc-title"><strong>«Конструктор»</strong> — индивидуальный пакет</div><div class="svc-desc">Выбираете только нужные этапы — платите за конкретные услуги</div></div>
+    <div class="svc-card" style="border-color:#FBBF9A;background:#FFFAF7"><div class="svc-top"><div class="svc-ico" style="background:#FFF3EE;color:var(--accent)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg></div><span class="svc-n" style="color:#FBBF9A">08</span></div><div class="svc-title"><strong style="color:var(--accent)">ФАС и РНП</strong> — защита поставщика</div><div class="svc-desc">Помощь с жалобами, работа по РНП, защита прав поставщика</div><div class="svc-sub"><span>— Жалобы на действия заказчика</span><span>— Реестр недобросовестных поставщиков</span></div></div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="section" id="packages">
+  <div class="section-head">
+    <div class="stag">Пакеты сопровождения</div>
+    <h2 class="stitle">Выберите формат — <span>узнайте стоимость</span></h2>
+    <p class="ssub">Разовые и ежемесячные пакеты. Стоимость рассчитывается индивидуально.</p>
+  </div>
+  <div class="pkg-grid">
+    <div class="pkg"><div class="pkg-name">Аналитика + аудит</div><div class="pkg-desc">Для тех, кто хочет понять рынок до первого участия</div><div class="pkg-feats"><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Аналитика рынка клиента</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Кол-во торгов, сезонность, средняя цена победы</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>До 3–5 основных конкурентов</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Аудит на соответствие 44/223-ФЗ</div></div><button class="pkg-btn" onclick="openPopup('Аналитика + аудит')">Узнать стоимость</button></div>
+    <div class="pkg"><div class="pkg-name">+ Подбор закупок</div><div class="pkg-desc">Аналитика + поиск подходящих закупок по вашим критериям</div><div class="pkg-feats"><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Всё из пакета «Аналитика + аудит»</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Отсмотр закупок по критериям клиента</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Рассылка соответствующих закупок</div></div><button class="pkg-btn" onclick="openPopup('Подбор закупок')">Узнать стоимость</button></div>
+    <div class="pkg"><div class="pkg-name">+ Регистрация ЕИС</div><div class="pkg-desc">Полная подготовка к участию включая регистрацию</div><div class="pkg-feats"><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Всё из предыдущих пакетов</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Регистрация в ЕИС</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Подготовка рабочего места</div></div><button class="pkg-btn" onclick="openPopup('Регистрация в ЕИС')">Узнать стоимость</button></div>
+    <div class="pkg feat"><div class="pkg-badge">Популярный</div><div class="pkg-name">Полное сопровождение до 5 закупок</div><div class="pkg-desc">Аналитика + аудит + подбор + ЕИС + участие в торгах</div><div class="pkg-feats"><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Всё из предыдущих пакетов</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Участие в аукционах и котировках</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Малые закупки (электронный магазин)</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>До 5 закупок в рамках пакета</div></div><button class="pkg-btn" onclick="openPopup('Полное сопровождение до 5 закупок')">Узнать стоимость</button></div>
+    <div class="pkg"><div class="pkg-name">«Свой тендеролог» с нуля</div><div class="pkg-desc">Постоянное ведение на аутсорсе — ваш тендерный специалист</div><div class="pkg-feats"><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Полное погружение в бизнес клиента</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Регулярный мониторинг и участие в торгах</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Ежемесячная отчётность</div></div><button class="pkg-btn" onclick="openPopup('Свой тендеролог с нуля')">Узнать стоимость</button></div>
+    <div class="pkg"><div class="pkg-name">Подготовленный клиент</div><div class="pkg-desc">Уже зарегистрированы — только мониторинг и участие</div><div class="pkg-feats"><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Мониторинг подходящих закупок</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Участие в торгах (аукцион, котировка)</div><div class="pf"><svg class="chk" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#E6F4ED"/><path d="M6 10l3 3 5-5" stroke="#1A7A4A" stroke-width="1.5" stroke-linecap="round"/></svg>Без первичного аудита — экономия на старте</div></div><button class="pkg-btn" onclick="openPopup('Подготовленный клиент')">Узнать стоимость</button></div>
+  </div>
+  <p style="text-align:center;margin-top:1.5rem;font-size:13px;color:var(--muted)">
+    Стоимость рассчитывается индивидуально.
+    <button onclick="openPopup()" style="color:var(--blue);font-weight:500;background:none;border:none;cursor:pointer;font-family:inherit;font-size:13px">Уточнить условия →</button>
+  </p>
+</section>
+
+<!-- PROCESS -->
+<section class="section section-alt" id="process">
+  <div class="section-head"><div class="stag">Как работаем</div><h2 class="stitle">5 шагов от <span>заявки до контракта</span></h2></div>
+  <div class="proc-steps">
+    <div class="proc-step"><div class="proc-dot">1</div><div class="proc-title">Заявка</div><div class="proc-desc">Пишете нам или оставляете форму. Ответим за 30 минут.</div></div>
+    <div class="proc-step"><div class="proc-dot">2</div><div class="proc-title">Аудит ТЗ</div><div class="proc-desc">Изучаем документацию, проверяем соответствие требованиям и рентабельность.</div></div>
+    <div class="proc-step"><div class="proc-dot">3</div><div class="proc-title">Стратегия</div><div class="proc-desc">Анализируем конкурентов, определяем тактику снижения, готовим документы.</div></div>
+    <div class="proc-step"><div class="proc-dot">4</div><div class="proc-title">Торги</div><div class="proc-desc">Участвуем в аукционе, реагируем на ходы конкурентов в реальном времени.</div></div>
+    <div class="proc-step"><div class="proc-dot">5</div><div class="proc-title">Контракт</div><div class="proc-desc">Помогаем с подписанием. При необходимости — ФАС и защита от РНП.</div></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="section" id="why">
+  <div class="section-head"><div class="stag">Почему мы</div><h2 class="stitle">Работаем на <span>результат</span>, а не на процесс</h2></div>
+  <div class="adv-grid">
+    <div class="adv-list">
+      <div class="adv-item"><div class="adv-icon">⚡</div><div class="adv-title">Быстрый старт: <span>ответ за 30 минут</span></div><div class="adv-desc">Оцениваем перспективы и даём заключение в тот же день</div></div>
+      <div class="adv-item"><div class="adv-icon">🎯</div><div class="adv-title"><span>Честная оценка</span> рентабельности</div><div class="adv-desc">Скажем прямо, если тендер убыточен — не берём деньги за бесперспективное</div></div>
+      <div class="adv-item"><div class="adv-icon">📋</div><div class="adv-title"><span>Работаем по договору</span></div><div class="adv-desc">Фиксируем обязательства документально — ваши деньги защищены</div></div>
+      <div class="adv-item"><div class="adv-icon">🎓</div><div class="adv-title"><span>Обучаем</span> ваших специалистов</div><div class="adv-desc">Передаём знания — можете работать самостоятельно</div></div>
+    </div>
+    <div class="adv-right">
+      <div class="hl-box"><div class="hl-num">7 000+</div><div class="hl-label">закупок за 2017–2025. 700+ госконтрактов на сумму свыше 270 млн ₽. 50+ заседаний ФАС.</div></div>
+      <div class="fas-card"><div class="fas-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg></div><div><h4>Помощь с <span>ФАС и РНП</span></h4><p>50+ заседаний ФАС. Обжалуем, подаём жалобы, защищаем от включения в реестр недобросовестных поставщиков.</p></div></div>
+      <div class="audit-mini"><div><h3>Нужен <span>тендерный отдел</span> с нуля?</h3><p>Строим: найм, обучение, регламенты, KPI — под ключ</p></div><button class="btn-wh" onclick="openPopup('Тендерный отдел с нуля')">Узнать стоимость</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-alt" id="faq">
+  <div class="section-head"><div class="stag">Вопросы и ответы</div><h2 class="stitle">Часто задают</h2></div>
+  <div class="faq-list">
+    <div class="faq-item open"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Гарантируете ли вы победу в тендере? <span class="faq-arrow">▾</span></div><div class="faq-a">Мы не гарантируем победу — это противоречило бы законодательству. Но честно оцениваем шансы до участия и не берёмся за тендеры с недостаточной рентабельностью. За 2017–2025 мы участвовали в 7 000+ закупках и заключили 700+ контрактов.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Работаете ли вы с компаниями без опыта в тендерах? <span class="faq-arrow">▾</span></div><div class="faq-a">Да, это значительная часть наших клиентов. Регистрируем в ЕИС, подбираем подходящие закупки и ведём первые участия.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Что нужно для начала работы? <span class="faq-arrow">▾</span></div><div class="faq-a">Достаточно написать нам или оставить заявку. Если есть конкретный тендер — пришлите ссылку или номер закупки. Мы сами скачиваем документацию и выходим с рекомендациями.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Как вы помогаете с ФАС и РНП? <span class="faq-arrow">▾</span></div><div class="faq-a">50+ заседаний ФАС за практику. Подаём жалобы на нарушения заказчика, участвуем в рассмотрении. По РНП — помогаем избежать включения или оспорить решение.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Можно ли взять только отдельную услугу? <span class="faq-arrow">▾</span></div><div class="faq-a">Да, для этого есть пакет «Конструктор» — выбираете только нужные этапы и платите за конкретный результат.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Работаете ли вы с МСП? <span class="faq-arrow">▾</span></div><div class="faq-a">Да, МСП — наша основная аудитория. Многие закупки предусматривают преимущества для субъектов МСП — мы знаем, как использовать их эффективно.</div></div>
+  </div>
+</section>
+
+<div class="cta-final" id="contact">
+  <h2>Готовы разобраться<br>с вашими <span>закупками</span>?</h2>
+  <p>Бесплатная консультация — 30 минут, конкретные выводы, без обязательств</p>
+  <div class="cta-btns">
+    <button class="btn-accent" onclick="openPopup()">Связаться с нами</button>
+    <a class="btn-white-ol" href="tel:+7XXXXXXXXXX">Позвонить</a>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">Про<span>Тендеры</span></div>
+  <div class="f-links">
+    <a href="#about">О компании</a>
+    <a href="#docs">Документы</a>
+    <a href="#services">Услуги</a>
+    <a href="#packages">Пакеты</a>
+    <a href="https://t.me/ВАША_ССЫЛКА" target="_blank">Telegram</a>
+  </div>
+  <div style="font-size:12px">© 2026 ПроТендеры · Участники РАУТ · Партнёры Контур</div>
+</footer>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="contact-popup" style="display:none" onclick="if(event.target===this)closePopup()">
+  <div class="popup-modal">
+    <button class="popup-close" onclick="closePopup()">×</button>
+    <div id="popup-form-wrap">
+      <h3>Связаться с нами</h3>
+      <p class="popup-sub">Ответим в течение 30 минут — без обязательств</p>
+      <div class="ff"><label>Имя</label><input id="popup-name" type="text" placeholder="Иван Иванов"></div>
+      <div class="ff"><label>Телефон, Telegram или MAX</label><input id="popup-contact" type="text" placeholder="+7 (___) ___-__-__ / @username"></div>
+      <div class="ff"><label>Что вас интересует?</label>
+        <select id="popup-interest">
+          <option>Сопровождение под ключ</option>
+          <option>Анализ рынка (консалтинг)</option>
+          <option>Аудит тендерного отдела</option>
+          <option>Помощь с ФАС / РНП</option>
+          <option>Обучение тендерологов</option>
+          <option>Регистрация в ЕИС</option>
+          <option>Подбор закупок</option>
+          <option>Аналитика + аудит</option>
+          <option>Полное сопровождение до 5 закупок</option>
+          <option>Свой тендеролог с нуля</option>
+          <option>Подготовленный клиент</option>
+          <option>Тендерный отдел с нуля</option>
+        </select>
+      </div>
+      <button id="popup-submit-btn" class="form-submit" onclick="submitPopup()">Отправить заявку</button>
+      <p class="form-note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+    </div>
+    <div id="popup-success" class="popup-success" style="display:none">
+      <div class="ok-icon">✅</div>
+      <h4>Заявка отправлена!</h4>
+      <p>Мы получили ваш запрос и ответим в течение 30 минут.</p>
+      <button class="form-submit" style="margin-top:1.25rem" onclick="closePopup()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL опыт -->
+<div class="modal-overlay" id="exp-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <span class="modal-close" onclick="document.getElementById('exp-modal').classList.remove('open')">×</span>
+    <h3>Наш опыт в закупках</h3>
+    <div class="modal-sub">Документально подтверждённые результаты 2009–2025</div>
+    <div class="exp-item"><div class="exp-year">с 2009</div><div class="exp-text">Начало работы в сфере государственных торгов</div></div>
+    <div class="exp-item"><div class="exp-year">2017–2025</div><div class="exp-text"><strong>7 000+</strong> закупок — аукционы, котировки, запросы предложений</div></div>
+    <div class="exp-item"><div class="exp-year">2017–2025</div><div class="exp-text">Свыше <strong>700 госконтрактов</strong> на сумму более <strong>270 000 000 ₽</strong></div></div>
+    <div class="exp-item"><div class="exp-year">Практика</div><div class="exp-text"><strong>50+ заседаний ФАС</strong> — жалобы, обжалование, защита прав поставщика</div></div>
+    <div class="exp-item"><div class="exp-year">Масштаб</div><div class="exp-text"><strong>7 компаний</strong> на полном сопровождении, создание тендерных отделов с нуля</div></div>
+    <div class="exp-item"><div class="exp-year">РАУТ</div><div class="exp-text">Участники Российской ассоциации участников торгов</div></div>
+    <div class="exp-item"><div class="exp-year">Партнёры</div><div class="exp-text">Официальные партнёры <strong>Контур</strong> (СКБ Контур)</div></div>
+    <div class="exp-item"><div class="exp-year">Сертификаты</div><div class="exp-text">ЦСК (аудитор OHSAS) · <strong>Сбербанк-АСТ</strong> (44-ФЗ) · МГТУ им. <strong>Баумана</strong></div></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" style="display:none" onclick="if(event.target===this)closeLightbox()">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    <img id="lb-img" class="lightbox-img" src="" alt="">
+    <div id="lb-caption" class="lightbox-caption"></div>
+    <div class="lightbox-nav">
+      <button class="lb-btn" onclick="lbNav(-1)">← Назад</button>
+      <span id="lb-counter" class="lightbox-counter"></span>
+      <button class="lb-btn" onclick="lbNav(1)">Вперёд →</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
