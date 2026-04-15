@@ -259,14 +259,20 @@ footer{background:#0F1923;color:#8898AA;padding:2.5rem 5vw;display:flex;justify-
 .exp-year{font-size:11px;font-weight:600;color:var(--blue);letter-spacing:.06em;min-width:76px;padding-top:2px}
 .exp-text{font-size:13px;line-height:1.6}.exp-text strong{color:var(--blue)}
 
+  @media(min-width:901px){
+  .stat:last-child{flex:1;border-bottom:none}
+}
+  
 @media(max-width:900px){
   .hero{grid-template-columns:1fr}.hero-card{max-width:480px}
   .svc-grid{grid-template-columns:1fr 1fr}
   .pkg-grid{grid-template-columns:1fr}
   .proc-steps{grid-template-columns:1fr 1fr}.proc-steps::before{display:none}
+.proc-step:last-child:nth-child(odd){grid-column:1/-1}
   .adv-grid,.cred-grid{grid-template-columns:1fr}
   .stats-strip{flex-wrap:wrap}
-  .stat{flex:0 0 50%;border-right:none;border-bottom:1px solid #C7D7F4}
+.stat{flex:0 0 50%;border-right:none;border-bottom:1px solid #C7D7F4}
+.stat:last-child{flex:0 0 100%;border-bottom:none}
   .audit-mini{flex-direction:column}
   .doc-slide{flex:0 0 calc((100% - 16px*2) / 3)}
   .slider-arrow.prev{left:4px}
