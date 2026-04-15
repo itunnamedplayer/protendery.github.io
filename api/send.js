@@ -6,7 +6,8 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  const { name, contact, interest } = req.body || {};
+  const { name, contact, mode, interest } = req.body || {};
+
   if (!name || !contact) {
     return res.status(400).json({ error: 'Имя и контакт обязательны' });
   }
@@ -15,7 +16,7 @@ export default async function handler(req, res) {
   const CHAT_IDS  = [
     process.env.TG_CHAT_ID_1,
     process.env.TG_CHAT_ID_2,
-  ].filter(Boolean); // игнорируем пустые
+  ].filter(Boolean);
 
   if (!BOT_TOKEN || CHAT_IDS.length === 0) {
     console.error('Missing TG_BOT_TOKEN or TG_CHAT_ID env vars');
@@ -23,12 +24,16 @@ export default async function handler(req, res) {
   }
 
   const esc = (s) => String(s || '').replace(/[_*[\]()~`>#+=|{}.!-]/g, c => '\\' + c);
+
+  const modeLabel = { phone: '📞 Телефон', tg: '✈️ Telegram', max: '💬 MAX' }[mode] || mode || 'не указан';
+
   const now = new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
   const text = [
     '📋 *Новая заявка — ПроТендеры*',
     '',
     `👤 *Имя:* ${esc(name)}`,
-    `📱 *Контакт:* ${esc(contact)}`,
+    `📱 *Способ связи:* ${esc(modeLabel)}`,
+    `💬 *Контакт:* ${esc(contact)}`,
     `❓ *Интерес:* ${esc(interest || 'не указан')}`,
     '',
     `🕐 *Время:* ${esc(now)} (МСК)`,
