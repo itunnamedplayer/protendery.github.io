@@ -33,6 +33,12 @@ nav{background:#fff;border-bottom:1px solid var(--border);padding:0 5vw;display:
 .nav-links a{font-size:14px;color:var(--muted);font-weight:500;transition:color .15s}.nav-links a:hover{color:var(--blue)}
 .btn-nav{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:10px 22px;border-radius:6px;display:flex;align-items:center;gap:7px;transition:background .15s;cursor:pointer;border:none;font-family:inherit}.btn-nav:hover{background:var(--blue-d)}
 
+  /* CONTACT TABS */
+.contact-tabs{display:flex;gap:6px;margin-bottom:8px}
+.ctab{flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:6px;background:#fff;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s,background .15s}
+.ctab.active{border-color:var(--blue);color:var(--blue);background:var(--blue-lt)}
+.ctab:hover:not(.active){border-color:#aab8d4}
+  
 /* HERO */
 .hero{background:linear-gradient(135deg,#0F2A6B 0%,#1B4FBB 60%,#2563EB 100%);color:#fff;padding:64px 5vw 56px;display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:center}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;margin-bottom:1.25rem;color:#c7d8ff}
@@ -542,7 +548,18 @@ document.addEventListener('DOMContentLoaded', buildSlider);
     <h3>Бесплатная консультация</h3>
     <p>Разберём вашу ситуацию за 30 минут</p>
     <div class="ff"><label>Имя</label><input id="hero-name" type="text" placeholder="Иван Иванов"></div>
-    <div class="ff"><label>Телефон, Telegram или MAX</label><input id="hero-contact" type="text" placeholder="+7 (___) ___-__-__ / @username"></div>
+  <!-- Выбор способа связи -->
+<div class="ff">
+  <label>Как с вами связаться?</label>
+  <div class="contact-tabs" id="hero-tabs">
+    <button type="button" class="ctab active" onclick="switchTab('hero','phone')">📞 Телефон</button>
+    <button type="button" class="ctab" onclick="switchTab('hero','tg')">✈️ Telegram</button>
+    <button type="button" class="ctab" onclick="switchTab('hero','max')">💬 MAX</button>
+  </div>
+  <input id="hero-contact" type="text" placeholder="+7 (___) ___-__-__" data-mode="phone">
+</div>
+<!-- Honeypot — скрытое поле, боты заполняют, люди нет -->
+<input type="text" id="hero-hp" name="website" autocomplete="off" style="display:none;position:absolute;left:-9999px" tabindex="-1">
     <div class="ff"><label>Что вас интересует?</label>
       <select id="hero-interest">
         <option>Сопровождение под ключ</option>
@@ -747,7 +764,16 @@ document.addEventListener('DOMContentLoaded', buildSlider);
       <h3>Связаться с нами</h3>
       <p class="popup-sub">Ответим в течение 30 минут — без обязательств</p>
       <div class="ff"><label>Имя</label><input id="popup-name" type="text" placeholder="Иван Иванов"></div>
-      <div class="ff"><label>Телефон, Telegram или MAX</label><input id="popup-contact" type="text" placeholder="+7 (___) ___-__-__ / @username"></div>
+     <div class="ff">
+  <label>Как с вами связаться?</label>
+  <div class="contact-tabs" id="popup-tabs">
+    <button type="button" class="ctab active" onclick="switchTab('popup','phone')">📞 Телефон</button>
+    <button type="button" class="ctab" onclick="switchTab('popup','tg')">✈️ Telegram</button>
+    <button type="button" class="ctab" onclick="switchTab('popup','max')">💬 MAX</button>
+  </div>
+  <input id="popup-contact" type="text" placeholder="+7 (___) ___-__-__" data-mode="phone">
+</div>
+<input type="text" id="popup-hp" name="website" autocomplete="off" style="display:none;position:absolute;left:-9999px" tabindex="-1">
       <div class="ff"><label>Что вас интересует?</label>
         <select id="popup-interest">
           <option>Сопровождение под ключ</option>
