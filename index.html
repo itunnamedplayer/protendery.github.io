@@ -303,11 +303,23 @@ async function sendToTelegram(fields) {
     const res = await fetch('/api/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(fields)
+      body: JSON.stringify(fields),
     });
+
+    // Проверяем HTTP-статус
+    if (!res.ok) {
+      const text = await res.text();
+      console.error('HTTP error', res.status, text);
+      return false;
+    }
+
     const data = await res.json();
-    if (!data.ok) console.error('Send error:', data);
-    return data.ok;
+    if (!data.ok) {
+      console.error('API error:', data);
+      return false;
+    }
+    return true;
+
   } catch (e) {
     console.error('Network error:', e);
     return false;
@@ -336,11 +348,7 @@ function closePopup() {
   setTimeout(() => ov.style.display = 'none', 280);
 }
 /* ── ПЕРЕКЛЮЧАТЕЛЬ СПОСОБА СВЯЗИ ── */
-const placeholders = {
-  phone: '+7 (___) ___-__-__',
-  tg: '@username',
-  max: 'Номер MAX или @username'
-};
+const placeholders = { phone: '+7 (___) ___-__-__', tg: '@username', max: 'Номер MAX или @username' };
 function switchTab(form, mode) {
   const input = document.getElementById(form + '-contact');
   const tabs  = document.getElementById(form + '-tabs');
@@ -354,11 +362,8 @@ function switchTab(form, mode) {
 
 /* ── АНТИСПАМ ── */
 const FORM_LOAD_TIME = Date.now();
-
 function isSpam(hpId) {
-  // Honeypot: если скрытое поле заполнено — бот
-  if (document.getElementById(hpId).value) return true;
-  // Таймер: если форма заполнена менее чем за 2 секунды — бот
+  if (document.getElementById(hpId)?.value) return true;
   if (Date.now() - FORM_LOAD_TIME < 2000) return true;
   return false;
 }
@@ -368,7 +373,7 @@ async function submitPopup() {
   if (isSpam('popup-hp')) { closePopup(); return; }
   const name     = document.getElementById('popup-name').value.trim();
   const contact  = document.getElementById('popup-contact').value.trim();
-  const mode     = document.getElementById('popup-contact').dataset.mode || 'не указан';
+  const mode     = document.getElementById('popup-contact').dataset.mode || 'phone';
   const interest = document.getElementById('popup-interest').value;
   const btn      = document.getElementById('popup-submit-btn');
   if (!name || !contact) { alert('Пожалуйста, заполните имя и контакт'); return; }
@@ -380,16 +385,15 @@ async function submitPopup() {
   } else {
     btn.textContent = 'Ошибка — попробуйте ещё раз';
     btn.style.background = '#c0392b';
+    btn.disabled = false;
   }
-  btn.disabled = false;
 }
 
-/* ── HERO FORM ── */
 async function submitHeroForm(btn) {
   if (isSpam('hero-hp')) return;
   const name     = document.getElementById('hero-name').value.trim();
   const contact  = document.getElementById('hero-contact').value.trim();
-  const mode     = document.getElementById('hero-contact').dataset.mode || 'не указан';
+  const mode     = document.getElementById('hero-contact').dataset.mode || 'phone';
   const interest = document.getElementById('hero-interest').value;
   if (!name || !contact) { alert('Пожалуйста, заполните имя и контакт'); return; }
   btn.textContent = 'Отправляю…'; btn.disabled = true;
