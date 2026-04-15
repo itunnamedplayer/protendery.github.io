@@ -25,14 +25,14 @@ export default async function handler(req, res) {
 
   const esc = (s) => String(s || '').replace(/[_*[\]()~`>#+=|{}.!-]/g, c => '\\' + c);
 
-  const modeLabel = { phone: '📞 Телефон', tg: '✈️ Telegram', max: '💬 MAX' }[mode] || mode || 'не указан';
+const modeLabel = { phone: 'Телефон', tg: 'Telegram', max: 'MAX' }[mode] || mode || 'не указан';
 
   const now = new Date().toLocaleString('ru-RU', { timeZone: 'Europe/Moscow' });
   const text = [
     '📋 *Новая заявка — ПроТендеры*',
     '',
     `👤 *Имя:* ${esc(name)}`,
-    `📱 *Способ связи:* ${esc(modeLabel)}`,
+    `📱 *Способ связи:* ${modeLabel}`,
     `💬 *Контакт:* ${esc(contact)}`,
     `❓ *Интерес:* ${esc(interest || 'не указан')}`,
     '',
